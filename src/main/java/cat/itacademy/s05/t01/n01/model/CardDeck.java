@@ -1,0 +1,33 @@
+package cat.itacademy.s05.t01.n01.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CardDeck {
+
+    private List<Card> cardList;
+
+    public CardDeck() {
+        this.cardList = new ArrayList<>();
+        initDeck();
+    }
+
+    public void initDeck(){
+        for (Suit suit: Suit.values()){
+            for (Rank rank: Rank.values()){
+                this.cardList.add(new Card(suit, rank));
+            }
+        }
+    }
+
+    public List<Card> getCardList() {
+        return cardList;
+    }
+
+    public void setCardList(List<Card> cardList) {
+        this.cardList = cardList;
+    }
+}
