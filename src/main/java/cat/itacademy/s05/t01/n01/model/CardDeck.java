@@ -1,9 +1,11 @@
 package cat.itacademy.s05.t01.n01.model;
 
+import cat.itacademy.s05.t01.n01.exception.EmptyCardDeckException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CardDeck {
@@ -21,6 +23,7 @@ public class CardDeck {
                 this.cardList.add(new Card(suit, rank));
             }
         }
+        shuffleDeck();
     }
 
     public List<Card> getCardList() {
@@ -29,5 +32,14 @@ public class CardDeck {
 
     public void setCardList(List<Card> cardList) {
         this.cardList = cardList;
+    }
+
+    public void shuffleDeck(){
+        Collections.shuffle(this.cardList);
+    }
+
+    public Card getCardFromDeck(){
+        if(this.cardList.isEmpty()) throw new EmptyCardDeckException("No cards left in the deck!");
+        return this.cardList.removeFirst();
     }
 }
