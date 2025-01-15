@@ -40,4 +40,10 @@ public class GamePlayer {
     public void setBetAmount(int betAmount) {
         this.betAmount = betAmount;
     }
+
+    public void addCardToPlayerHand(Card card){
+        this.playerHand.add(card);
+    }
+
+
 }
