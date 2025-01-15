@@ -11,4 +11,5 @@ public interface PlayerService {
     Mono<Player> save(Player player);
     Flux<Player> getPlayersSorted();
     Mono<Player> update(int id, String newName);
+    Mono<Player> updatePlayerScore(Player player, double prizeAmount);
 }
