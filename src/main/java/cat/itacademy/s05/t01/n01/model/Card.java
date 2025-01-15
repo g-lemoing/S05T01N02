@@ -27,4 +27,8 @@ public class Card {
     public void setRank(Rank rank) {
         this.rank = rank;
     }
+
+    public int getCardValue(){
+        return this.rank.getValue();
+    }
 }
