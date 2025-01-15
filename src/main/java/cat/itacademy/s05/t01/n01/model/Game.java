@@ -64,4 +64,75 @@ public class Game {
     public void setCardDeck(CardDeck cardDeck) {
         this.cardDeck = cardDeck;
     }
+
+    public void givePlayerHand (int cards){
+        for (int i = 0; i < cards; i++){
+            this.gamePlayer.addCardToPlayerHand(cardDeck.getCardFromDeck());
+        }
+    }
+
+    public void giveBankHand (int cards) {
+        for (int i = 0; i < cards; i++) {
+            this.bankHand.add(cardDeck.getCardFromDeck());
+        }
+    }
+
+    public void setBetAmount(int betAmount){
+        this.gamePlayer.setBetAmount(betAmount);
+    }
+
+    public void initialCardDeal(){
+        givePlayerHand(2);
+        giveBankHand(2);
+    }
+
+    public static int getHandValue(List<Card> cardList){
+        int score = 0;
+        int aces = 0;
+
+        for(Card card: cardList){
+            score += card.getCardValue();
+            if(card.getRank() == Rank._1) aces++;
+        }
+
+        while (score > 21 && aces > 0){
+            score -= 10;
+            aces--;
+        }
+        return score;
+    }
+
+    public GameStatus ckeckWinner(){
+        GameStatus status;
+        int playerHandValue = getHandValue(this.getGamePlayer().getPlayerHand());
+        int bankHandValue = getHandValue(this.getBankHand());
+
+        if (playerHandValue > 21 || playerHandValue < bankHandValue){
+            status = GameStatus.BANK_WINS;
+        } else if (playerHandValue > bankHandValue) {
+            status =  GameStatus.PLAYER_WINS;
+        } else status = GameStatus.DRAW;
+
+        return status;
+    }
+
+    public double getplayerPrize(){
+        int playerHandValue = getHandValue(this.getGamePlayer().getPlayerHand());
+        int bankHandValue = getHandValue(this.getBankHand());
+        if (playerHandValue == 21){
+            return gamePlayer.getBetAmount() * 3 / 2;
+        }
+        else if (playerHandValue > bankHandValue){
+            return gamePlayer.getBetAmount() * 2;
+        }else {
+            return gamePlayer.getBetAmount();
+        }
+
+    }
+
+    public boolean isGameOver(){
+        return gameStatus == GameStatus.DRAW || gameStatus == GameStatus.PLAYER_WINS
+                || gameStatus == GameStatus.BANK_WINS;
+    }
+
 }
