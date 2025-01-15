@@ -11,7 +11,7 @@ public class Player {
     @NotNull
     private String name;
 
-    private int score;
+    private double score;
 
     public Player() {
     }
@@ -37,11 +37,11 @@ public class Player {
         this.name = name;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
