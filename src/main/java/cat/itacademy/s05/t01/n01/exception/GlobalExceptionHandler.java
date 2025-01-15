@@ -37,4 +37,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
+    @ExceptionHandler(EmptyCardDeckException.class)
+    public Mono<ResponseEntity<String>> handleEmptyCardDeckException(EmptyCardDeckException e){
+        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage()));
+    }
+
 }
