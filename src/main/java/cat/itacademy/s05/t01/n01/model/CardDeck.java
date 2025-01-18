@@ -2,7 +2,7 @@ package cat.itacademy.s05.t01.n01.model;
 
 import cat.itacademy.s05.t01.n01.exception.EmptyCardDeckException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +38,7 @@ public class CardDeck {
         Collections.shuffle(this.cardList);
     }
 
+    @JsonIgnore
     public Card getCardFromDeck(){
         if(this.cardList.isEmpty()) throw new EmptyCardDeckException("No cards left in the deck!");
         return this.cardList.removeFirst();
