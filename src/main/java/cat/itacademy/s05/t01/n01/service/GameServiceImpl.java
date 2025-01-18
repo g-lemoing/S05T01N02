@@ -74,20 +74,19 @@ public class GameServiceImpl implements GameService{
             case HIT -> {
                 return playHit(game);
             }
-            case DOUBLE -> {
-
-            }
-            case SECURE -> {
-
-            }
+//            case DOUBLE -> {
+//
+//            }
+//            case SECURE -> {
+//
+//            }
             case STAND -> {
                 return playStand(game);
             }
             case null, default -> {
-                return Mono.error(new IllegalArgumentException("Invalid move"));
+                return Mono.error(new IllegalArgumentException("Action does not exist"));
             }
         }
-        return null;
     }
 
     Mono<Game> playBet(Game game, int betAmount){
