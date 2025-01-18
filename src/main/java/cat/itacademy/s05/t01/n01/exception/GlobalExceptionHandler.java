@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
         return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()));
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public Mono<ResponseEntity<String>> handleIllegalStateException(IllegalStateException e){
+        return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage()));
+    }
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<HashMap<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
         HashMap<String, String> errors = new HashMap<>();
