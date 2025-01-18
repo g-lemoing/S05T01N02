@@ -1,5 +1,7 @@
 package cat.itacademy.s05.t01.n01.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
@@ -13,6 +15,7 @@ public class Game {
     private GamePlayer gamePlayer;
     private GameStatus gameStatus;
     private List<Card> bankHand;
+    @JsonIgnore
     private CardDeck cardDeck;
 
     public Game() {
@@ -107,9 +110,9 @@ public class Game {
         int playerHandValue = getHandValue(this.getGamePlayer().getPlayerHand());
         int bankHandValue = getHandValue(this.getBankHand());
 
-        if (playerHandValue > 21 || playerHandValue < bankHandValue){
+        if (playerHandValue > 21 || playerHandValue < bankHandValue && bankHandValue < 22){
             status = GameStatus.BANK_WINS;
-        } else if (playerHandValue > bankHandValue) {
+        } else if (playerHandValue > bankHandValue || bankHandValue > 21) {
             status =  GameStatus.PLAYER_WINS;
         } else status = GameStatus.DRAW;
 
