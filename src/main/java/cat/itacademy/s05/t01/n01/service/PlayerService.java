@@ -10,6 +10,8 @@ import java.util.List;
 public interface PlayerService {
     Mono<Player> save(Player player);
     Flux<Player> getPlayersSorted();
-    Mono<Player> update(int id, String newName);
+    Mono<Player> updatePlayerName(int id, String newName);
     Mono<Player> updatePlayerScore(Player player, double prizeAmount);
+    Mono<Player> createNewPlayer(String name);
+    Mono<Player> findPlayerById(int id);
 }
