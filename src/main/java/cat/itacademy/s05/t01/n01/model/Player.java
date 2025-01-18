@@ -21,6 +21,11 @@ public class Player {
         this.score = 0;
     }
 
+    public Player(int id, String name, double score){
+        this.id = id;
+        this.name = name;
+        this.score = score;
+    }
     public int getId() {
         return id;
     }
