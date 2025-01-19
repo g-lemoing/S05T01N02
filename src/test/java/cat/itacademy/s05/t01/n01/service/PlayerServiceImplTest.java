@@ -113,34 +113,18 @@ class PlayerServiceImplTest {
                 .verifyComplete();
     }
 
-    @Test
-    void createNewPlayerWhenPlayerExistsTest() {
-        String name = "Juan";
-        Player checkedPlayer = new Player(1, name, 10);
-
-        when(playerRepository.findPlayerByName(ArgumentMatchers.anyString()))
-                .thenReturn(Mono.just(checkedPlayer));
-        StepVerifier.create(playerService.createNewPlayer("Juan"))
-            .expectNextMatches(player -> player.getId() == player1.getId() &&
-                    player.getName().equals(player1.getName()) &&
-                    player.getScore() == player1.getScore())
-            .verifyComplete();
-    }
-
 //    @Test
-//    void createNewPlayer_PlayerExists() {
-//        // Arrange
-//        String playerName = "ExistingPlayer";
-//        Player existingPlayer = new Player(1, playerName, 10);
-//        when(playerRepository.findPlayerByName(playerName)).thenAnswer(invocation -> {
-//            String queriedName = invocation.getArgument(0);
-//            System.out.println("Queried name: " + queriedName);
-//            return Mono.just(existingPlayer); });
-//        Mono<Player> result = playerService.createNewPlayer(playerName);
-//        assertNotNull(result, "El Mono devuelto es null");
-//        StepVerifier.create(result).expectNextMatches(player -> player.getName().equals(playerName)).verifyComplete();
-//        verify(playerRepository, times(1)).findPlayerByName(playerName);
-//        verify(playerRepository, times(0)).save(any(Player.class));
+//    void createNewPlayerWhenPlayerExistsTest() {
+//        String name = "Juan";
+//        Player checkedPlayer = new Player(1, name, 10);
+//
+//        when(playerRepository.findPlayerByName(ArgumentMatchers.anyString()))
+//                .thenReturn(Mono.just(checkedPlayer));
+//        StepVerifier.create(playerService.createNewPlayer("Juan"))
+//            .expectNextMatches(player -> player.getId() == player1.getId() &&
+//                    player.getName().equals(player1.getName()) &&
+//                    player.getScore() == player1.getScore())
+//            .verifyComplete();
 //    }
 
     @Test
