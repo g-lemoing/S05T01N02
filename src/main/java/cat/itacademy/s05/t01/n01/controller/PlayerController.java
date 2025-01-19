@@ -34,10 +34,10 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Player name successfully updated"),
             @ApiResponse(responseCode = "400", description = "Bad request in updating player name"),
     })
-    @PutMapping(value = {"/player/{id}"})
-    public Mono<ResponseEntity<Player>> updatePlayerName(@Parameter(description = "Enter player id") @PathVariable Integer id,
+    @PutMapping(value = {"/player/{playerId}"})
+    public Mono<ResponseEntity<Player>> updatePlayerName(@Parameter(description = "Enter player id") @PathVariable Integer playerId,
                                                          @RequestBody @Schema(description = "Enter new player name", example = "Juan") String newName){
-        return playerService.updatePlayerName(id, newName).map(player ->
+        return playerService.updatePlayerName(playerId, newName).map(player ->
                 ResponseEntity.status(HttpStatus.OK).body(player));
     }
 
