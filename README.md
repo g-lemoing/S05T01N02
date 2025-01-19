@@ -51,7 +51,7 @@ git clone https://github.com/g-lemoing/S05T01N01.git
 2. Abrir el IDE e importar el proyecto desde el repositorio local desde File > Open.
 3. Abrir el MySQLWorkbench (descargarlo e instalarlo si necesario desde https://dev.mysql.com/downloads/) y crear una conexión si no n'existeix cap. Importar el fitxer db_blackjack_players.sql per crear la base de dades i la taula players.
 4. Arrancar el servidor MongoDb, abrir el MongoDb Compass, instalarlo previamente si necesario (mongodb.com/es). Crear una base de dades 'blackjack' amb una col·lecció 'game'
-5. En la consola, navegar fins el directori arrel i executar mvn clean install (o .\mvnw.cmd clean install) per garantir la instal·lació correcta de les dependències.
+5. En la consola, navegar fins el directori del projecte S05T01N01, i executar mvn clean install (o .\mvnw.cmd clean install) per garantir la instal·lació correcta de les dependències.
 6. Actualitzar el fitxer application.properties amb els paràmetres de connexió a les bases de dades MySQL i MongoDb en cas de diferir de les establertes en aquest projecte
 
 ## Ejecución:
