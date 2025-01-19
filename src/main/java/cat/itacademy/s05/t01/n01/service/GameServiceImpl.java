@@ -20,7 +20,7 @@ public class GameServiceImpl implements GameService{
     @Autowired
     PlayerServiceImpl playerService;
 
-    private static Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(GameServiceImpl.class);
 
     @Override
     public Mono<Game> createGame(String name) {
@@ -31,8 +31,7 @@ public class GameServiceImpl implements GameService{
                     GamePlayer gamePlayer = new GamePlayer(player);
                     Game game = new Game(gamePlayer);
                     return gameRepository.save(game).doOnNext(
-                            createdGame -> log.info("Game successfully initialized with id: "
-                                    + createdGame.getId() + " and player " + player.getName())
+                            createdGame -> log.info("Game successfully initialized with id: {} and player {}", createdGame.getId(), player.getName())
                     );
                 }
         );
@@ -42,13 +41,19 @@ public class GameServiceImpl implements GameService{
     public Mono<Game> getGame(String id) {
         if(id == null || id.isEmpty()) throw new IllegalArgumentException("Id game is mandatory.");
         return gameRepository.findById(id)
+                .doOnNext(game -> log.info(
+                        "Game info: [GameId: {}, Game status: {}, PlayerHand: {}, BankHand: {}, BetAmount: {}",
+                                game.getId(), game.getGameStatus(), game.getGamePlayer().getPlayerHand(),
+                                game.getBankHand(), game.getGamePlayer().getBetAmount()
+                ))
                 .switchIfEmpty(Mono.error(new GameNotFoundException(id)));
     }
 
     @Override
     public Mono<Void> deleteGame(String gameId) {
-        if(gameId == null || gameId.isEmpty()) throw new IllegalArgumentException("Id game is mandatory.");
-        return getGame(gameId).flatMap(game -> gameRepository.delete(game));
+        if(gameId == null || gameId.isEmpty()) throw new IllegalArgumentException("Game Id is mandatory.");
+        return getGame(gameId).flatMap(game -> gameRepository.delete(game))
+                .doOnSuccess(voidObj -> log.info("Game with id: {} successfully deleted.", gameId));
     }
 
     @Override
@@ -93,6 +98,7 @@ public class GameServiceImpl implements GameService{
         if(game.getGameStatus() != GameStatus.INIT) throw new IllegalArgumentException("You cannot bet at this moment.");
         if(betAmount == 0) throw new IllegalArgumentException("Bet amount must be greater than 0.");
 
+        log.info("Playing action BET with {}€ as bet amount.", betAmount);
         game.setBetAmount(betAmount);
         game.initialCardDeal();
         if(Game.getHandValue(game.getGamePlayer().getPlayerHand()) > 21){
@@ -100,28 +106,33 @@ public class GameServiceImpl implements GameService{
         } else {
             game.setGameStatus(GameStatus.SECOND_ROUND);
         }
-        return gameRepository.save(game);
+        return gameRepository.save(game).doOnSuccess(this::logGameDetails);
     }
 
     Mono<Game> playHit(Game game){
         if(game.getGameStatus() != GameStatus.SECOND_ROUND) throw new IllegalArgumentException("You cannot hit for another card at this moment.");
 
+        log.info("Playing action HIT...");
         game.givePlayerHand(1);
         if(Game.getHandValue(game.getGamePlayer().getPlayerHand()) > 21){
             game.setGameStatus(GameStatus.BANK_WINS);
         }
-        return gameRepository.save(game);
+        return gameRepository.save(game).doOnSuccess(this::logGameDetails);
     }
 
     Mono<Game> playStand(Game game) {
         if (game.getGameStatus() != GameStatus.SECOND_ROUND)
             throw new IllegalArgumentException("You cannot stand at this moment.");
 
+        log.info("Playing action STAND...");
         while (Game.getHandValue(game.getBankHand()) < 17) {
+            log.info("Dealing card to the bank...");
             game.giveBankHand(1);
         }
+        log.info("Checking for the winner");
         GameStatus gameStatus = game.ckeckWinner();
         game.setGameStatus(gameStatus);
+        this.logGameDetails(game);
         if (gameStatus == GameStatus.PLAYER_WINS || gameStatus == GameStatus.DRAW) {
             double prizeAmount = game.getplayerPrize();
             return this.playerService.updatePlayerScore(game.getGamePlayer().getPlayer(), prizeAmount)
@@ -132,5 +143,9 @@ public class GameServiceImpl implements GameService{
                     });
         }
         return gameRepository.save(game);
+    }
+
+    private void logGameDetails(Game game){
+        log.info("Game info --> {}", game.toString());
     }
 }
