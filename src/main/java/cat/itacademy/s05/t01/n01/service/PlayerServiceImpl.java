@@ -14,7 +14,7 @@ import java.util.Comparator;
 
 @Service
 public class PlayerServiceImpl implements PlayerService{
-    private static Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -37,25 +37,30 @@ public class PlayerServiceImpl implements PlayerService{
             p.setName(newName);
             return p;
         }).flatMap(p ->
-            this.playerRepository.save(p));
+            this.playerRepository.save(p)).doOnSuccess(p ->
+                log.info("Player name successfully updated to {} with playerId {}", p.getName(), p.getId()));
     }
 
     @Override
     public Mono<Player> updatePlayerScore(Player player, double prizeAmount) {
         player.setScore(player.getScore() + prizeAmount);
-        return this.playerRepository.save(player);
+        return this.playerRepository.save(player).doOnSuccess(p ->
+            log.info("Player score successfully updated to {} with playerId {}", p.getScore(), p.getId()));
     }
 
     @Override
     public Mono<Player> createNewPlayer(String name){
         return playerRepository.findPlayerByName(name)
                 .doOnNext(player -> log.info("Found player: {}", player))
-                .switchIfEmpty(this.playerRepository.save(new Player(name)));
+                .switchIfEmpty(this.playerRepository.save(new Player(name)))
+                .doOnSuccess(p ->
+                        log.info("Player successfully created with name {} and id {}", p.getName(), p.getId()));
     }
 
     @Override
     public Mono<Player> findPlayerById(int id){
         return this.playerRepository.findById(id)
+                .doOnNext(player -> log.info("Found player by id: {}", player))
                 .switchIfEmpty(Mono.error(new PlayerNotFoundException(id)));
     }
 }
