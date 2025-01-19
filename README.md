@@ -29,6 +29,12 @@ Documentem l'API de l'aplicació mitjançant l'eina Swagger, fent servir les ann
 ### Tests
 S'han implementat testos dels mètodes del controlador PlayerController i del servei PlayerServiceImpl, fent servir JUnit5 i Mockito per generar mocks 
 ## Requisits tècnics
+- MySQL WorkBench 8.0
+- MongoDb 8.0
+- Maven: Apache Maven 3.9.9
+- Java version 22
+- Sistema operatiu: Windows
+
 Projecte Maven amb les dependències següents:
 - Aplicació reactiva: org.springframework.boot:spring-boot-starter-webflux i io.projectreactor.netty:reactor-netty (servidor HTTP reactivo)
 - DevTools: org.springframework.boot:spring-boot-devtools
@@ -43,21 +49,20 @@ Projecte Maven amb les dependències següents:
 1. Clonar el repositorio de Github
 git clone https://github.com/g-lemoing/S05T01N01.git
 2. Abrir el IDE e importar el proyecto desde el repositorio local desde File > Open.
-3. Abrir el MySQLWorkbench (descargarlo e instalarlo si necesario desde https://dev.mysql.com/downloads/) y crear una conexión
-4. Arrancar el servidor MongoDb, abrir el MongoDb Compass, instalarlo previamente si necesario (mongodb.com/es)
-5. En la consola, per garantir la instal·lació correcta de les dependències, executem mvn clean install (o .\mvnw.cmd clean install)
+3. Abrir el MySQLWorkbench (descargarlo e instalarlo si necesario desde https://dev.mysql.com/downloads/) y crear una conexión si no n'existeix cap. Importar el fitxer db_blackjack_players.sql per crear la base de dades i la taula players.
+4. Arrancar el servidor MongoDb, abrir el MongoDb Compass, instalarlo previamente si necesario (mongodb.com/es). Crear una base de dades 'blackjack' amb una col·lecció 'game'
+5. En la consola, navegar fins el directori arrel i executar mvn clean install (o .\mvnw.cmd clean install) per garantir la instal·lació correcta de les dependències.
+6. Actualitzar el fitxer application.properties amb els paràmetres de connexió a les bases de dades MySQL i MongoDb en cas de diferir de les establertes en aquest projecte
 
 ## Ejecución:
-Localizar la clase Main y ejecutar S04T02N02Application.
-Abrir el Postman (descargar si necesario desde https://www.postman.com/downloads/), y ejecutar las peticiones:
-
-http://localhost:8080/fruita/add
-
-http://localhost:8080/fruita/update
-
-http://localhost:8080/fruita/delete/{id}
-
-http://localhost:8080/fruita/getOne/{id}
+Localizar la clase Main y ejecutar S05T01N01Application.
+Abrir el Swagger (http://localhost:8080/swagger-ui/webjars/swagger-ui/index.html) y ejecutar las peticiones tot seguint les instruccions:
+- Crear nova partida: http://localhost:8080/game/new, entrar nom del jugador en el body
+- Consultar dades de la partida: http://localhost:8080/game/{id}, on {id} és l'identificador únic del joc
+- Realitzar una jugada dins de la partida: http://localhost:8080/game/{id}/play, on {id} és l'identificador únic del joc. Informar en el body l'acció a dur a terme i l'aposta si s'escau
+- Eliminar una partida: http://localhost:8080/game/{id}/delete, on {id} és l'identificador únic del joc
+- Canviar el nom d'un jugador: http://localhost:8080/player/{playerId}, on {playerId} és el seu identificador únic.
+- Obtenir el rànquing dels jugadors segons la seva puntuació decreixent: http://localhost:8080/ranking
 
 http://localhost:8080/fruita/getAll
 ## Contribucions:
