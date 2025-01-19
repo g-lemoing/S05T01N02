@@ -31,4 +31,12 @@ public class Card {
     public int getCardValue(){
         return this.rank.getValue();
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "suit=" + suit +
+                ", rank=" + rank +
+                '}';
+    }
 }

@@ -45,5 +45,12 @@ public class GamePlayer {
         this.playerHand.add(card);
     }
 
-
+    @Override
+    public String toString() {
+        return "GamePlayer{" +
+                "player=" + player +
+                ", playerHand=" + playerHand +
+                ", betAmount=" + betAmount +
+                "€}";
+    }
 }

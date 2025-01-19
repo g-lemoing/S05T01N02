@@ -138,4 +138,13 @@ public class Game {
                 || gameStatus == GameStatus.BANK_WINS;
     }
 
+    @Override
+    public String toString() {
+        return "Game{" +
+                "_id='" + _id + '\'' +
+                ", gamePlayer=" + gamePlayer +
+                ", gameStatus=" + gameStatus +
+                ", bankHand=" + bankHand +
+                '}';
+    }
 }
