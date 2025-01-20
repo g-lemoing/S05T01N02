@@ -17,7 +17,6 @@ import reactor.test.StepVerifier;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -120,6 +119,7 @@ class PlayerServiceImplTest {
 //
 //        when(playerRepository.findPlayerByName(ArgumentMatchers.anyString()))
 //                .thenReturn(Mono.just(checkedPlayer));
+//        Mono<Player> playerMono = playerService.createNewPlayer(name);
 //        StepVerifier.create(playerService.createNewPlayer("Juan"))
 //            .expectNextMatches(player -> player.getId() == player1.getId() &&
 //                    player.getName().equals(player1.getName()) &&
