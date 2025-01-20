@@ -69,7 +69,7 @@ Obrir el navegador, i anar a la URL http://localhost:8080/[ruta de l'endpoint de
 - Eliminar una partida: http://localhost:8080/game/{id}/delete, on {id} és l'identificador únic del joc
 - Canviar el nom d'un jugador: http://localhost:8080/player/{playerId}, on {playerId} és el seu identificador únic.
 - Obtenir el rànquing dels jugadors segons la seva puntuació decreixent: http://localhost:8080/ranking
-- 
+
 A l'igual que en el repositori https://github.com/g-lemoing/S05T01N01, també es poden realitzar peticions mitjançant el Swagger (http://localhost:8080/swagger-ui/webjars/swagger-ui/index.html).
 
 ## Contribucions:
