@@ -50,8 +50,8 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public Mono<Player> createNewPlayer(String name){
-        return playerRepository.findPlayerByName(name)
-                .doOnNext(player -> log.info("Found player: {}", player))
+        return this.playerRepository.findPlayerByName(name)
+                .doOnSuccess(player -> log.info("Found player: {}", player))
                 .switchIfEmpty(this.playerRepository.save(new Player(name)))
                 .doOnSuccess(p ->
                         log.info("Player successfully created with name {} and id {}", p.getName(), p.getId()));
