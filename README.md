@@ -1,5 +1,5 @@
-# Creació d'ApiRest amb SpringBoot i WebFlux, per gestionar partides de BlackJack
-En aquest exercici pràctic, creem una API en Java amb Spring Boot per a un joc de Blackjack. L'API està dissenyada per connectar-se i gestionar informació en dues bases de dades diferents: MongoDB i MySQL. El joc de Blackjack s'implementa amb totes les funcionalitats necessàries per jugar, com la gestió de jugadors, mans de cartes i regles del joc. L'aplicació dissenyada és reactiva amb WebFlux.
+# Dockerització d'aplicació ApiRest amb SpringBoot i WebFlux, per gestionar partides de BlackJack
+En aquest exercici pràctic, creem una API en Java amb Spring Boot per a un joc de Blackjack. L'API està dissenyada per connectar-se i gestionar informació en dues bases de dades diferents: MongoDB i MySQL. El joc de Blackjack s'implementa amb totes les funcionalitats necessàries per jugar, com la gestió de jugadors, mans de cartes i regles del joc. L'aplicació dissenyada és reactiva amb WebFlux. Creem a continuació una imatge i contenidor Docker per executar l'aplicació.
 
 Creem un projecte Spring amb Spring Initializr (https://start.spring.io/), amb gestor de dependències Maven i afegim les dependències necessàries relacionades en l'apartat "Requisits tècnics" més avall, les que no estan disponibles en el Initializr s'afegiran manualment en el projecte a posteriori.
 
@@ -32,8 +32,9 @@ S'han implementat testos dels mètodes del controlador PlayerController i del se
 - MySQL WorkBench 8.0
 - MongoDb 8.0
 - Maven: Apache Maven 3.9.9
-- Java version 22
+- Java versió 22
 - Sistema operatiu: Windows
+- Docker Desktop versió 4.37.1
 
 Projecte Maven amb les dependències següents:
 - Aplicació reactiva: org.springframework.boot:spring-boot-starter-webflux i io.projectreactor.netty:reactor-netty (servidor HTTP reactivo)
@@ -47,7 +48,7 @@ Projecte Maven amb les dependències següents:
 - Tests --> org.springframework.boot:spring-boot-starter-test, io.projectreactor:reactor-test
 ## Instalación: 
 1. Clonar el repositorio de Github
-git clone https://github.com/g-lemoing/S05T01N01.git
+git clone https://github.com/g-lemoing/S05T01N02.git
 2. Abrir el IDE e importar el proyecto desde el repositorio local desde File > Open.
 3. Abrir el MySQLWorkbench (descargarlo e instalarlo si necesario desde https://dev.mysql.com/downloads/) y crear una conexión si no n'existeix cap. Importar el fitxer db_blackjack_players.sql per crear la base de dades i la taula players.
 4. Arrancar el servidor MongoDb, abrir el MongoDb Compass, instalarlo previamente si necesario (mongodb.com/es). Crear una base de dades 'blackjack' amb una col·lecció 'game'
@@ -55,20 +56,26 @@ git clone https://github.com/g-lemoing/S05T01N01.git
 6. Actualitzar el fitxer application.properties amb els paràmetres de connexió a les bases de dades MySQL i MongoDb en cas de diferir de les establertes en aquest projecte
 
 ## Ejecución:
-Localizar la clase Main y ejecutar S05T01N01Application.
-Abrir el Swagger (http://localhost:8080/swagger-ui/webjars/swagger-ui/index.html) y ejecutar las peticiones tot seguint les instruccions:
+- En la cónsola, navegar fins el directori arrel del projecte S05T01N02.
+- Amb Docker Desktop instal·lat a la màquina (sinó, descarregar-lo i instal·lar-lo des de https://www.docker.com/, escollint la versió adequada per al sistema operatiu), dur a terme els següents comandaments en la cònsola per crear una imatge Docker i un contenidor:
+  > docker build -t blackjackapp .
+  > run -d -p 8080:8080 --name blackcontainer blackjackapp
+Obrir el navegador, i anar a la URL http://localhost:8080/[ruta de l'endpoint desitjat], com per exemple http://localhost:8080/ranking
+![image](https://github.com/user-attachments/assets/aa7d7220-5b61-4d15-861d-50980a1bd7ac)
+
 - Crear nova partida: http://localhost:8080/game/new, entrar nom del jugador en el body
 - Consultar dades de la partida: http://localhost:8080/game/{id}, on {id} és l'identificador únic del joc
 - Realitzar una jugada dins de la partida: http://localhost:8080/game/{id}/play, on {id} és l'identificador únic del joc. Informar en el body l'acció a dur a terme i l'aposta si s'escau
 - Eliminar una partida: http://localhost:8080/game/{id}/delete, on {id} és l'identificador únic del joc
 - Canviar el nom d'un jugador: http://localhost:8080/player/{playerId}, on {playerId} és el seu identificador únic.
 - Obtenir el rànquing dels jugadors segons la seva puntuació decreixent: http://localhost:8080/ranking
+- 
+A l'igual que en el repositori https://github.com/g-lemoing/S05T01N01, també es poden realitzar peticions mitjançant el Swagger (http://localhost:8080/swagger-ui/webjars/swagger-ui/index.html).
 
-http://localhost:8080/fruita/getAll
 ## Contribucions:
 1. Crear un fork del repositorio: 
 2. Clonar el repositorio hacia el directorio local marcado por git bash
- git clone https://github.com/YOUR-USERNAME/S04T02N02
+ git clone https://github.com/YOUR-USERNAME/S05T01N02
 3. Crear una rama
 git branch BRANCH-NAME
 git checkout BRANCH-NAME
