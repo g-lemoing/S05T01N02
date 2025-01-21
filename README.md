@@ -72,6 +72,10 @@ Obrir el navegador, i anar a la URL http://localhost:8080/[ruta de l'endpoint de
 
 A l'igual que en el repositori https://github.com/g-lemoing/S05T01N01, també es poden realitzar peticions mitjançant el Swagger (http://localhost:8080/swagger-ui/webjars/swagger-ui/index.html).
 
+Per afegir una etiqueta a la imatge, escriurem el comandament següent a la consola, i la pujarem a Docker:
+> docker tag [id imatge] [nom usuari Docker Hub]/[nom etiqueta]:[versió]
+> docker push [nom usuari Docker Hub]/[nom etiqueta]:[versió]
+
 ## Contribucions:
 1. Crear un fork del repositorio: 
 2. Clonar el repositorio hacia el directorio local marcado por git bash
